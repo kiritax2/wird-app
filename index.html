@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#173f32">
+<title>وِرد</title>
+<style>
+:root{--green:#173f32;--green2:#285544;--gold:#e7ddbb;--bg:#f5f3ec;--card:#fffefa;--ink:#1c2923;--muted:#718078;--line:#e7e6dc}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Noto Naskh Arabic",sans-serif}
+header{background:var(--green);color:white;padding:25px 20px 22px;border-radius:0 0 25px 25px}
+.brand{display:flex;align-items:center;gap:12px}.logo{width:48px;height:48px;border-radius:15px;background:var(--gold);color:var(--green);display:grid;place-items:center;font-size:25px}
+h1{font-size:25px;margin:0}header p{color:#d8e6d9;margin:4px 0 0;font-size:13px}
+main{max-width:650px;margin:auto;padding:16px 15px 95px}.tabs{display:flex;gap:7px;background:#e9e8df;padding:5px;border-radius:14px;margin:0 0 16px}
+.tabs button{flex:1;border:0;background:transparent;padding:11px 4px;border-radius:10px;color:#53645b;font-weight:700;font-size:14px}
+.tabs button.active{background:white;color:var(--green);box-shadow:0 1px 5px #0001}
+h2{font-size:21px;margin:10px 0 5px}.sub{color:var(--muted);font-size:13px;margin:0 0 14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;margin:12px 0;box-shadow:0 3px 12px #253d2b08}
+.card h3{margin:0 0 12px;font-size:16px}.big{font-size:30px;font-weight:800;color:var(--green);margin:6px 0}
+.progress{height:9px;background:#e8e9e1;border-radius:20px;overflow:hidden;margin:10px 0}.progress span{height:100%;display:block;background:#39815d;border-radius:20px}
+button{cursor:pointer} .primary{border:0;border-radius:12px;background:var(--green);color:white;padding:12px 15px;font-weight:700}
+.secondary{border:1px solid var(--line);background:white;color:var(--green);border-radius:12px;padding:10px 12px;font-weight:650}
+.danger{border:1px solid #f0d4d0;background:#fff8f7;color:#a13c32;border-radius:12px;padding:10px 12px;font-weight:650}
+input,select{width:100%;border:1px solid var(--line);border-radius:11px;padding:12px;background:white;font:inherit;margin:5px 0 10px;color:var(--ink)}
+.row{display:flex;gap:8px;align-items:center}.row>*{flex:1}.muted{font-size:12px;color:var(--muted)}
+.hidden{display:none!important}.surah-item{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 14px;border:1px solid var(--line);border-radius:13px;background:#fffefa;margin:8px 0}.surah-item strong{font-size:15px}.quran-text{font-family:"Noto Naskh Arabic","Amiri",serif;line-height:2.15}.ayah-card{background:#fffefa;border:1px solid var(--line);border-radius:15px;padding:16px;margin:10px 0}.ayah-text{font-size:23px;line-height:2.2;text-align:justify}.hidden{display:none!important}.dhikr{padding:13px;border:1px solid var(--line);border-radius:14px;background:#fffefa;margin:9px 0}
+.dhikr.selected{border-color:#8eaa98;background:#f0f5ef}.dhikr-name{font-weight:750;font-size:16px}.counter{font-size:13px;color:var(--muted);margin-top:4px}
+footer{position:fixed;bottom:0;left:0;right:0;background:#fffefaee;border-top:1px solid var(--line);padding:10px;text-align:center;color:var(--muted);font-size:11px}
+label{font-size:13px;font-weight:650}
+</style>
+</head>
+<body>
+<header><div class="brand"><div class="logo">۞</div><div><h1>وِرد</h1><p>رفيقك في القرآن والذكر والطاعة</p></div></div></header>
+<main>
+<div class="tabs">
+<button class="active" data-tab="home">الرئيسية</button><button data-tab="mushaf">المصحف</button><button data-tab="quran">الختمة</button><button data-tab="dhikr">الأذكار</button>
+</div>
+<section id="home">
+<h2>السلام عليكم ورحمة الله</h2><p class="sub">اجعل لك نصيباً من القرآن والذكر كل يوم.</p>
+<div class="card"><h3>ورد القرآن اليومي</h3><div class="big" id="homePages">0 / 20</div><div class="progress"><span id="homeProgress" style="width:0%"></span></div><p class="muted" id="homePercent">0% من هدفك اليومي</p><button class="primary" onclick="addPage()">+ أتممت صفحة</button></div>
+<div class="card"><h3>الأذكار المكتملة</h3><div class="big" id="homeDhikr">0 / 0</div><p class="muted">الأذكار التي بلغت عددها المحدد</p><button class="secondary" onclick="showTab('dhikr')">افتح الأذكار</button></div>
+</section>
+
+<section id="mushaf" class="hidden">
+<h2>المصحف الشريف</h2><p class="sub">القرآن الكريم كاملاً — فهرس السور وحفظ موضع القراءة.</p>
+<div class="card"><div class="row"><div><h3 style="margin:0">آخر موضع قراءة</h3><div class="muted" id="bookmarkLabel">لم تحفظ موضعاً بعد</div></div><button class="secondary" onclick="resumeBookmark()">متابعة</button></div></div>
+<input id="surahSearch" placeholder="ابحث باسم السورة..." oninput="renderSurahList()">
+<div id="surahList"></div>
+<div id="surahReader" class="hidden">
+  <div class="card"><button class="secondary" onclick="backToSurahs()">→ فهرس السور</button>
+    <h2 id="readerSurahName" style="text-align:center;margin-top:16px"></h2>
+    <p class="muted" id="readerSurahInfo" style="text-align:center"></p>
+    <div id="bismillah" class="quran-text" style="text-align:center;font-size:24px;margin:18px 0"></div>
+  </div><div id="ayahList"></div>
+  <div class="card"><h3>مصدر النص</h3><p class="muted">النص العثماني مضمّن من حزمة quran في TeX Live. راجع ملف QURAN_SOURCE_NOTICE.txt داخل التطبيق لمعلومات المصدر والترخيص.</p></div>
+</div>
+</section>
+
+<section id="quran" class="hidden">
+<h2>ختمة القرآن الكريم</h2><p class="sub">تابع قراءتك واضبط هدفك اليومي.</p>
+<div class="card"><h3>مدة الختمة</h3><select id="duration" onchange="updateQuran()"><option value="30">30 يوماً</option><option value="15">15 يوماً</option><option value="7">7 أيام</option><option value="60">60 يوماً</option></select><div class="big" id="suggested">21 صفحة</div><p class="muted">الورد المقترح يومياً (على أساس 604 صفحات تقريباً)</p></div>
+<div class="card"><h3>تقدم القراءة</h3><div class="big" id="pageCount">0 / 604</div><div class="progress"><span id="qProgress" style="width:0%"></span></div><div class="row"><button class="secondary" onclick="addPage(-1)">صفحة للخلف</button><button class="primary" onclick="addPage(1)">أتممت صفحة +</button></div><label for="goal">هدف الصفحات اليومي</label><input id="goal" type="number" min="1" max="604" value="20" onchange="saveGoal()"></div>
+</section>
+<section id="dhikr" class="hidden">
+<h2>مكتبة الأذكار</h2><p class="sub">أضف أذكارك وعدّل النص والعدد كما تريد.</p>
+<div id="dhikrList"></div>
+<div class="card"><h3>العداد</h3><div class="big" id="countNow">0</div><p class="muted" id="selectedName">اختر ذكراً من القائمة</p><button class="primary" style="width:100%;font-size:17px;padding:15px" onclick="increment()">+ تسبيحة جديدة</button><button class="secondary" style="width:100%;margin-top:8px" onclick="resetCount()">تصفير العداد</button></div>
+<div class="card"><h3>إضافة ذكر جديد</h3><label>نص الذكر</label><input id="newName" placeholder="اكتب الذكر هنا"><label>عدد التكرار المستهدف</label><input id="newTarget" type="number" min="1" value="100"><button class="primary" style="width:100%" onclick="addDhikr()">إضافة الذكر</button></div>
+<div class="card"><h3>تعديل الذكر المحدد</h3><label>النص</label><input id="editName"><label>عدد التكرار</label><input id="editTarget" type="number" min="1"><div class="row"><button class="secondary" onclick="saveEdit()">حفظ التعديل</button><button class="danger" onclick="deleteDhikr()">حذف الذكر</button></div></div>
+</section>
+</main>
+<footer>وِرد • نسخة تجريبية أولى — بياناتك محفوظة على هذا الجهاز</footer>
+<script src="quran.js"></script>
+<script>
+const defaults=[
+{name:"سبحان الله",count:0,target:100},{name:"الحمد لله",count:0,target:100},
+{name:"الله أكبر",count:0,target:100},{name:"أستغفر الله",count:0,target:100},
+{name:"لا إله إلا الله",count:0,target:100},{name:"اللهم صل وسلم على نبينا محمد",count:0,target:100}
+];
+let state={pages:0,goal:20,dhikrs:defaults,selected:0};
+try{const old=JSON.parse(localStorage.getItem("wird-v1"));if(old)state={...state,...old};}catch(e){}
+function persist(){localStorage.setItem("wird-v1",JSON.stringify(state));render();}
+function showTab(id){document.querySelectorAll("main section").forEach(s=>s.classList.toggle("hidden",s.id!==id));document.querySelectorAll(".tabs button").forEach(b=>b.classList.toggle("active",b.dataset.tab===id));if(id==="dhikr")renderDhikr();if(id==="mushaf")renderSurahList();}
+document.querySelectorAll(".tabs button").forEach(b=>b.addEventListener("click",()=>showTab(b.dataset.tab)));
+function addPage(n=1){state.pages=Math.max(0,Math.min(604,state.pages+n));persist();}
+function saveGoal(){state.goal=Math.max(1,Math.min(604,Number(document.getElementById("goal").value)||20));persist();}
+
+let currentSurah = 0;
+function renderSurahList(){
+  const list=document.getElementById("surahList"); if(!list||!window.WIRD_QURAN)return;
+  const q=(document.getElementById("surahSearch").value||"").trim(); list.innerHTML="";
+  window.WIRD_QURAN.surahs.filter(s=>!q||s.name.includes(q)||String(s.number)===q).forEach(s=>{
+    const el=document.createElement("div");el.className="surah-item";
+    const left=document.createElement("div");const num=document.createElement("span");num.className="muted";num.textContent=String(s.number).padStart(3,"0")+"  ";
+    const name=document.createElement("strong");name.textContent=s.name;left.append(num,name);
+    const count=document.createElement("span");count.className="muted";count.textContent=s.ayahCount+" آية";
+    el.append(left,count);el.onclick=()=>openSurah(s.number);list.appendChild(el);
+  });
+}
+function openSurah(n, ayah=1){
+  const s=window.WIRD_QURAN.surahs[n-1];if(!s)return;currentSurah=n;
+  document.getElementById("surahList").classList.add("hidden");document.getElementById("surahSearch").classList.add("hidden");
+  document.getElementById("surahReader").classList.remove("hidden");
+  document.getElementById("readerSurahName").textContent=s.name;
+  document.getElementById("readerSurahInfo").textContent="السورة رقم "+n+" • "+s.ayahCount+" آية";
+  document.getElementById("bismillah").textContent=(n===1||n===9)?"":"بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ";
+  const box=document.getElementById("ayahList");box.innerHTML="";
+  s.verses.forEach(v=>{
+    const card=document.createElement("div");card.className="ayah-card";card.id="ayah-"+v.number;
+    const txt=document.createElement("div");txt.className="ayah-text quran-text";txt.textContent=v.text;
+    const meta=document.createElement("div");meta.className="row";meta.style.marginTop="10px";
+    const label=document.createElement("span");label.className="muted";label.textContent="الآية "+v.number;
+    const save=document.createElement("button");save.className="secondary";save.textContent="حفظ موضع القراءة";
+    save.onclick=()=>{state.bookmark={surah:n,ayah:v.number};persist();document.getElementById("bookmarkLabel").textContent=s.name+" — الآية "+v.number;};
+    meta.append(label,save);card.append(txt,meta);box.append(card);
+  });
+  setTimeout(()=>{const el=document.getElementById("ayah-"+ayah);if(el)el.scrollIntoView({block:"start"});},80);
+}
+function backToSurahs(){document.getElementById("surahReader").classList.add("hidden");document.getElementById("surahList").classList.remove("hidden");document.getElementById("surahSearch").classList.remove("hidden");}
+function resumeBookmark(){if(!state.bookmark){alert("لم تحفظ موضع قراءة بعد");return;}openSurah(state.bookmark.surah,state.bookmark.ayah);}
+
+function updateQuran(){let d=Number(document.getElementById("duration").value);document.getElementById("suggested").textContent=Math.ceil(604/d)+" صفحة";}
+function render(){let p=Math.min(100,Math.round(state.pages/Math.max(1,state.goal)*100));document.getElementById("homePages").textContent=state.pages+" / "+state.goal;document.getElementById("homeProgress").style.width=p+"%";document.getElementById("homePercent").textContent=p+"% من هدفك اليومي";document.getElementById("pageCount").textContent=state.pages+" / 604";document.getElementById("qProgress").style.width=Math.min(100,state.pages/604*100)+"%";document.getElementById("goal").value=state.goal;document.getElementById("bookmarkLabel").textContent=state.bookmark?("السورة "+state.bookmark.surah+" — الآية "+state.bookmark.ayah):"لم تحفظ موضعاً بعد";let done=state.dhikrs.filter(d=>d.count>=d.target).length;document.getElementById("homeDhikr").textContent=done+" / "+state.dhikrs.length;renderDhikr();}
+function renderDhikr(){let list=document.getElementById("dhikrList");list.innerHTML="";state.dhikrs.forEach((d,i)=>{let el=document.createElement("div");el.className="dhikr"+(i===state.selected?" selected":"");el.innerHTML=`<div class="row"><div><div class="dhikr-name"></div><div class="counter"></div></div><button class="secondary">اختيار</button></div><div class="progress"><span></span></div>`;el.querySelector(".dhikr-name").textContent=d.name;el.querySelector(".counter").textContent=d.count+" من "+d.target;el.querySelector("button").onclick=()=>{state.selected=i;renderDhikr();};el.querySelector(".progress span").style.width=Math.min(100,d.count/d.target*100)+"%";list.appendChild(el);});let d=state.dhikrs[state.selected];document.getElementById("countNow").textContent=d?d.count:0;document.getElementById("selectedName").textContent=d?d.name:"لا يوجد ذكر محدد";document.getElementById("editName").value=d?d.name:"";document.getElementById("editTarget").value=d?d.target:100;}
+function increment(){let d=state.dhikrs[state.selected];if(d){d.count++;persist();}}
+function resetCount(){let d=state.dhikrs[state.selected];if(d&&confirm("هل تريد تصفير عداد هذا الذكر؟")){d.count=0;persist();}}
+function addDhikr(){let name=document.getElementById("newName").value.trim(),target=Math.max(1,Number(document.getElementById("newTarget").value)||100);if(!name){alert("اكتب نص الذكر أولاً");return;}state.dhikrs.push({name,count:0,target});state.selected=state.dhikrs.length-1;document.getElementById("newName").value="";persist();}
+function saveEdit(){let d=state.dhikrs[state.selected];if(!d)return;let name=document.getElementById("editName").value.trim();if(!name){alert("لا يمكن أن يكون الذكر فارغاً");return;}d.name=name;d.target=Math.max(1,Number(document.getElementById("editTarget").value)||1);persist();}
+function deleteDhikr(){if(!state.dhikrs[state.selected])return;if(!confirm("حذف هذا الذكر؟"))return;state.dhikrs.splice(state.selected,1);state.selected=Math.max(0,Math.min(state.selected,state.dhikrs.length-1));persist();}
+updateQuran();render();
+</script>
+</body></html>

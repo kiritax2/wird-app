@@ -1,0 +1,17 @@
+QURAN TEXT ATTRIBUTION AND LICENSE
+
+The bundled Uthmani Quran text was extracted verbatim from:
+TeX Live package `quran`, file `qurantext-uthmani.def`.
+
+Package copyright:
+Copyright © 2015-2024 Seiied-Mohammad-Javad Razavian
+Current maintainer: Seiied-Mohammad-Javad Razavian
+The package states that it may be distributed and/or modified under the
+LaTeX Project Public License (LPPL), version 1.3c or (at your option) any later version.
+
+The package's quran.sty identifies its Arabic surah names as taken from:
+http://tanzil.net/res/text/metadata/quran-data.xml
+
+This app's Quran reader displays the extracted ayah text as supplied by the
+package. It does not provide an independent textual collation against a
+fresh Tanzil download. The Quran text itself is not editable inside the app.
